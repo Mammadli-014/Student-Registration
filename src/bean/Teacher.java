@@ -67,6 +67,6 @@ public class Teacher extends Person implements Serializable {
         this.password=s1.nextLine();
         System.out.println("Your ID:"+teacherID);
         // Add teacher to the list of all teachers managed by Admin
-        Admin.addObjectToFile(this);
+        Config.addObjectToFile(this);
     }
 }

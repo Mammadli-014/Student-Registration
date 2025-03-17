@@ -32,15 +32,6 @@ public class Admin extends Person {
         return password;
     }
 
-    // Method to add students and teachers
-    public static void addObjectToFile(Object o) {
-        try {
-            Config.getInstance().addObjectToArrayList(o);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     //Check the all ides that empty
     public static boolean isEmptyID(String id) {
         ArrayList<Person> allPersons = new ArrayList<>();
@@ -79,7 +70,7 @@ public class Admin extends Person {
     }
 
     // Method to find students by id
-    public Student findStudentByID(String id) {
+    Student findStudentByID(String id) {
         ArrayList<Student> allStudent = Config.getInstance().getAllStudents();
         for (Student s : allStudent) {
             if (s.getID().equals(id))
@@ -99,14 +90,13 @@ public class Admin extends Person {
     }
 
     // Method to find teachers by name
-    public Teacher findTeacher(String name) {
+    Teacher findTeacher(String name) {
         ArrayList<Teacher> allTeachers = Config.getInstance().getAllTeachers();
         for (Teacher t : allTeachers)
             if (t.getName().equals(name))
                 return t;
         return null;
     }
-
 
     // Method to search classes by name
     public ArrayList<Class> searchClass(String name) {

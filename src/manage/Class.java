@@ -25,14 +25,14 @@ public class Class implements Serializable {
     }
 
     public ArrayList<Student> getStudents() {
-        if (Config.getLoginedAs()==PersonType.TEACHER || Config.getLoginedAs()== PersonType.ADMIN) return (ArrayList<Student>) students.clone();
+        if (SessionManager.getP()==PersonType.TEACHER || SessionManager.getP()== PersonType.ADMIN) return (ArrayList<Student>) students.clone();
         else System.err.println("You can not enter this proccess");
         return null;
     }
 
     // Method to set teacher (requires administrator permission)
     public void setTeacher(Teacher t) {
-        if (Config.getLoginedAs()==PersonType.ADMIN) this.t = t;
+        if (SessionManager.getP()==PersonType.ADMIN) this.t = t;
         else System.err.println("You can not use this proccess");
     }
 
@@ -49,6 +49,6 @@ public class Class implements Serializable {
     Class(String className) {
         this.className = className;
         students = new ArrayList<>();
-        Admin.addObjectToFile(this);
+        Config.addObjectToFile(this);
     }
 }

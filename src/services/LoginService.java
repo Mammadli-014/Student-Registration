@@ -1,8 +1,10 @@
 package services;
 
+import manage.Admin;
 import manage.Config;
 import bean.Person;
 import manage.PersonType;
+import manage.SessionManager;
 import servicesInter.LoginServiceInter;
 
 import java.util.ArrayList;
@@ -37,15 +39,14 @@ public class LoginService implements LoginServiceInter {
         for (Person person:allPeople){
             System.out.println(person.getID()+" "+person.getName()+" "+person.getPassword());
             if (person.getID().equals(ID) && person.getPassword().equals(password)){
-                loginedAccount=person.getClass().getName();
+                loginedAccount=person.getClass().getSimpleName();
 
                 System.out.println("You loged succesfully");
-
-                Config.getInstance().setLoggedIn(true, PersonType.choosePerson(loginedAccount));
+                SessionManager.setCurrentUser(person);
+                SessionManager.setLoggedIn(true, PersonType.choosePerson(loginedAccount));
                 return;
             }
         }
-
         System.err.println("The password or Id is incorrect");
 
 

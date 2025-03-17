@@ -3,9 +3,6 @@ package manage;
 import bean.Student;
 import bean.Teacher;
 import exceptions.FalseObjectException;
-import personService.AdminService;
-import personService.StudentService;
-import personService.TeacherService;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -21,11 +18,6 @@ public class Config implements Serializable {
     private static final long serialVersionUID = 7062698481402950035L;
     private boolean isLoggedIn;
     private final String fileDirection = "DataBase\\config.obj";
-    private static PersonType personType;
-
-    public static PersonType getLoginedAs() {
-        return personType;
-    }
 
     public ArrayList<Admin> getAllAdmins() {
         return new ArrayList<>(allAdmins);
@@ -59,18 +51,6 @@ public class Config implements Serializable {
         return isLoggedIn;
     }
 
-    public void setLoggedIn(boolean loggedIn,PersonType personType) {
-        isLoggedIn = loggedIn;
-        if (isLoggedIn) {
-            Config.personType =personType;
-        }
-        switch (personType){
-            case ADMIN -> new AdminService();
-            case STUDENT -> new StudentService();
-            case TEACHER -> new TeacherService();
-        }
-    }
-
     public void addObjectToArrayList(Object object) throws IOException {
         if (object instanceof Admin)
             allAdmins.add((Admin) object);
@@ -100,6 +80,14 @@ public class Config implements Serializable {
             o.writeObject(Config.getInstance());
         } catch (IOException exception) {
             System.out.println(exception.getMessage());
+        }
+    }
+
+    public static void addObjectToFile(Object o) {
+        try {
+            Config.getInstance().addObjectToArrayList(o);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

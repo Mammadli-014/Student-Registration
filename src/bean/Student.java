@@ -1,9 +1,8 @@
 package bean;
 
-import manage.Admin;
+import annotations.UsableForStudent;
+import manage.*;
 import manage.Class;
-import manage.Config;
-import manage.PersonType;
 
 import java.io.Serializable;
 import java.util.Scanner;
@@ -15,12 +14,12 @@ public class Student extends Person implements Serializable {
     private Class studentClass;
 
     public void setStudentClass(Class studentClass) {
-        if (Config.getLoginedAs() == PersonType.ADMIN) {
+        if (SessionManager.getP()  == PersonType.ADMIN) {
             this.studentClass = studentClass;
         } else System.err.println("You are not Admin, that's why the class is not changed");
     }
 
-
+    @UsableForStudent
     public Class getStudentClass() {
         return studentClass;
     }
@@ -29,8 +28,9 @@ public class Student extends Person implements Serializable {
         return password;
     }
 
+    @UsableForStudent
     public void setPassword(String oldPassword, String newPassword) {
-        if (Config.getLoginedAs() == PersonType.ADMIN) {
+        if (SessionManager.getP() == PersonType.STUDENT) {
             this.password = (password.equals(oldPassword)) ? newPassword : oldPassword;
         }
     }
@@ -43,6 +43,7 @@ public class Student extends Person implements Serializable {
         return name;
     }
 
+    @UsableForStudent
     public String getID() {
         return ID;
     }
@@ -65,6 +66,6 @@ public class Student extends Person implements Serializable {
         } catch (NullPointerException ignored) {}
 
         // Add student to the list of all students managed by Admin
-        Admin.addObjectToFile(this);
+        Config.addObjectToFile(this);
     }
 }
